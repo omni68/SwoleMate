@@ -39,3 +39,6 @@
 a.font-gray { color: #999999; }
 
 .item-radio input:checked ~ .item-content { background: none; }
+.item .primary { float: right; }
+
+.card { cursor: pointer; }

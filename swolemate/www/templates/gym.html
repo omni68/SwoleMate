@@ -13,9 +13,9 @@
     </div>
     {{results | json}}
     <ul class="list">
-        <li ng-repeat="gym in gymResults">
-          <div class="card">
-            <div class="item item-divider" ng-class="{'bg-balanced':isGymAdded(gym)}" ng-click="addRemoveGym(gym)">
+        <li ng-repeat="gym in gymResults" ng-click="addRemoveGym(gym)" class="card">
+          <div>
+            <div class="item item-divider" ng-class="{'bg-balanced':isGymAdded(gym)}">
               {{gym.name}}
               <i ng-if="!isGymAdded(gym)" class="icon ion-plus-circled pull-right"></i>
               <i ng-if="isGymAdded(gym)" class="icon ion-minus pull-right"></i>

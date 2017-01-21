@@ -159,7 +159,7 @@ angular.module('starter', ['ionic','ngCordova'])
         });
     }
 })
-.controller('GymCtrl', function($scope, ProfileSvc, $ionicPlatform, $cordovaGeolocation, $timeout, $ionicPopup) {
+.controller('GymCtrl', function($scope, ProfileSvc, $ionicPlatform, $cordovaGeolocation, $timeout, $ionicPopup, $ionicLoading) {
   $scope.search = {};
   $scope.profile = ProfileSvc.profile;
 
@@ -178,12 +178,18 @@ angular.module('starter', ['ionic','ngCordova'])
     if(!angular.isArray($scope.profile.gyms)){
       $scope.profile.gyms = [];
     }
+    if(!$scope.profile.primaryGymId) {
+      $scope.profile.primaryGymId = gym.id;
+    }
     $scope.profile.gyms.push(gym);
   };
   $scope.removeGym = function(gym){
     angular.forEach($scope.profile.gyms, function(gymX, i){
         if(gymX.id == gym.id){
           $scope.profile.gyms.splice(i, 1);
+          if($scope.profile.primaryGymId == gym.id && $scope.profile.gyms.length > 0) {
+            $scope.profile.primaryGymId = $scope.profile.gyms[0].id;
+          }
         }
     });
   };
@@ -206,19 +212,27 @@ angular.module('starter', ['ionic','ngCordova'])
       if(searchCriteria && searchCriteria.length >= 5){
         $ionicPlatform.ready(function() {
           var posOptions = {timeout: 5000, enableHighAccuracy: true};
-          $cordovaGeolocation
-            .getCurrentPosition(posOptions)
-            .then(function (position) {
-              var lat  = position.coords.latitude
-              var long = position.coords.longitude
-              $scope.initializeMap(lat, long, searchCriteria);
-            }, function(err) {
-              // error
-              $ionicPopup.alert({
-                 title: 'Geolocation error',
-                 template: 'Please make sure location services are enabled for this app'
-               });
-            });
+          $ionicLoading.show({
+            template: 'Searching...',
+            duration: 3000
+          });
+         $cordovaGeolocation
+          .getCurrentPosition(posOptions)
+          .then(function (position) {
+            var lat  = position.coords.latitude
+            var long = position.coords.longitude
+            $scope.initializeMap(lat, long, searchCriteria);
+          }, function(err) {
+            $ionicLoading.hide();
+            // error
+            $ionicPopup.alert({
+               title: 'Geolocation error',
+               template: 'Please make sure location services are enabled for this app'
+             });
+          })
+          .then(function(){
+             $ionicLoading.hide();
+          });
         });
       }
     }, 600);
@@ -258,16 +272,16 @@ angular.module('starter', ['ionic','ngCordova'])
 })
 .controller('ProfileCtrl', function($scope, ProfileSvc, $cordovaCamera, $cordovaImagePicker, $location) {
   $scope.profile = ProfileSvc.profile;
-  $scope.primaryGym = { id: $scope.profile.primaryGymId }; // set primary gym from data on init
-  $scope.$watch('profile.primaryGymId', updateProfile, true);
-  $scope.$watch('profile.gender', updateProfile, true);
-  $scope.$watch('profile.name', updateProfile, true);
-  $scope.$watch('profile.age', updateProfile, true);
 
   $scope.updateProfile = updateProfile;
   $scope.getPhoto = getPhoto;
  // $scope.selectPhoto = selectPhoto;
  $scope.goToFullProfileImg = goToFullProfileImg;
+ $scope.handleClickGym = handleClickGym;
+
+ function handleClickGym(gym) {
+    $scope.profile.primaryGymId = gym.id;
+ }
 
  function goToFullProfileImg(){
     $location.path('/profile-image');

@@ -36,6 +36,8 @@
             <img id="prof-img" src="" class="pull-left" ng-click="goToFullProfileImg()" />
             <a class="button button-icon icon ion-camera pull-right" ng-click="getPhoto()"></a>
         </li>
+    </ul>
+    <ul class="list">
         <li class="item item-divider">
             Gyms
         </li>
@@ -43,12 +45,11 @@
             {{gym.name}} ({{gym.formatted_address}})
             <i class="icon ion-ios-arrow-forward"></i>
         </a> -->
-        <label class="item item-radio" ng-repeat="gym in profile.gyms">
-            <input type="radio" name="group" ng-model="profile.primaryGymId" value="{{gym.id}}">
-                <div class="item-content">
-                    {{gym.name}} ({{gym.formatted_address}})
-                </div>
-            <i class="radio-icon ion-checkmark"></i>
+        <label class="item item-radio" ng-repeat="gym in profile.gyms" ng-click="handleClickGym(gym)">
+            <div class="item-content">
+                {{gym.name}} ({{gym.formatted_address}})
+                <span class="primary" ng-show="gym.id == profile.primaryGymId">primary gym</span>
+            </div>
         </label>
         <a class="item item-icon-right font-gray" href="#/gym">
             add a gym...
@@ -62,6 +63,6 @@
             Preferred Schedules
         </li>
         <li class="item" ng-repeat="schedule in profile.workoutSchedules | filter:{selected:true}">{{schedule.name}}</li>
-    </div>
+    </ul>
   </ion-content>
 </ion-view>
