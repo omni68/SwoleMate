@@ -1,0 +1,35 @@
+<ion-view view-title="Find gym">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
+  <ion-content class="padding has-footer">
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" ng-model="search.criteria" placeholder="find gym" ng-keyup="getGyms(search.criteria)"/>
+        <!-- <i class="icon item-icon-right item-icon-right-min ion-close placeholder-icon"></i> -->
+      </label>
+    </div>
+    {{results | json}}
+    <ul class="list">
+        <li ng-repeat="gym in gymResults">
+          <div class="card">
+            <div class="item item-divider" ng-class="{'bg-balanced':isGymAdded(gym)}" ng-click="addRemoveGym(gym)">
+              {{gym.name}}
+              <i ng-if="!isGymAdded(gym)" class="icon ion-plus-circled pull-right"></i>
+              <i ng-if="isGymAdded(gym)" class="icon ion-minus pull-right"></i>
+            </div>
+            <div class="item item-text-wrap">
+              {{gym.formatted_address}}
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div id="map"></div>
+  </ion-content>
+  <!-- <div class="bar bar-footer bar-positive">
+    <a class="button button-large button-clear icon icon-left ion-ios-arrow-left pull-left" href="#/basicInfo">Back</a>
+    <a class="button button-large button-clear icon icon-right ion-ios-arrow-right pull-right" href="#/workouts">Next</a>
+  </div> -->
+</ion-view>

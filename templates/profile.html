@@ -1,0 +1,67 @@
+<ion-view view-title="My Profile">
+    <ion-nav-buttons side="primary">
+        <a class="button button-large button-clear icon ion-navicon" menu-toggle="left"></a>
+    </ion-nav-buttons>
+  <ion-content>
+    <ul class="list">
+        <li class="item item-divider">
+            Basic Information
+        </li>
+        <label class="item item-input">
+            <input type="text" placeholder="name" ng-model="profile.name">
+        </label>
+        <label class="item item-input">
+            <input type="text" placeholder="age" ng-model="profile.age">
+            years old
+        </label>
+        <li class="item" ng-if="profile.height.ft">
+            <input type="text" placeholder="height in feet" ng-model="profile.height.ft">
+            height (ft)
+        </li>
+        <li class="item" ng-if="profile.height.in">
+            <input type="text" placeholder="height in inches" ng-model="profile.height.in">
+            height (in)
+        </li>
+        <li class="item" ng-if="profile.weight">{{profile.weight}}</li>
+        <li class="item item-icon-left item-toggle-override">
+            <i class="icon" ng-class="{'ion-male':profile.gender=='Male','ion-female':profile.gender=='Female'}"></i>
+            <label class="toggle pull-right" ng-class="{'toggle-positive':profile.gender=='Male','toggle-assertive':profile.gender=='Female'}">
+                <input type="checkbox" ng-model="profile.gender" ng-init="profile.gender='Male'" ng-true-value="'Female'" ng-false-value="'Male'">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </li>
+        <li class="item item-img-left">
+            <img id="prof-img" src="" class="pull-left" ng-click="goToFullProfileImg()" />
+            <a class="button button-icon icon ion-camera pull-right" ng-click="getPhoto()"></a>
+        </li>
+        <li class="item item-divider">
+            Gyms
+        </li>
+        <!-- <a class="item item-icon-right" ng-repeat="gym in profile.gyms" href="#/gym/details">
+            {{gym.name}} ({{gym.formatted_address}})
+            <i class="icon ion-ios-arrow-forward"></i>
+        </a> -->
+        <label class="item item-radio" ng-repeat="gym in profile.gyms">
+            <input type="radio" name="group" ng-model="profile.primaryGymId" value="{{gym.id}}">
+                <div class="item-content">
+                    {{gym.name}} ({{gym.formatted_address}})
+                </div>
+            <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <a class="item item-icon-right font-gray" href="#/gym">
+            add a gym...
+            <i class="icon ion-ios-arrow-forward"></i>
+        </a>
+        <li class="item item-divider" ng-if="profile.workoutTypes.length > 0">
+            Preferred Workouts
+        </li>
+        <li class="item" ng-repeat="type in profile.workoutTypes | filter:{selected:true}">{{type.name}}</li>
+        <li class="item item-divider" ng-if="profile.workoutSchedules.length > 0">
+            Preferred Schedules
+        </li>
+        <li class="item" ng-repeat="schedule in profile.workoutSchedules | filter:{selected:true}">{{schedule.name}}</li>
+    </div>
+  </ion-content>
+</ion-view>

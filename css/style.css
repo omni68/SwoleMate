@@ -1,0 +1,41 @@
+/* Empty. Add your own CSS if you like */
+.bar-footer { border-top: none !important; }
+.pull-right { float: right; }
+.item-icon-right-min { padding-right: 15px; }
+.bg-balanced { background-color: #33cd5f; } /*green*/
+.slider-pager {
+	top: 0;
+	bottom: initial;
+}
+.toggle.toggle-positive input:not(:checked) + .track {
+	border-color: #387ef5;
+  	background-color: #387ef5;
+}
+.item-toggle-override { padding: 5px; } /*override for list items containing a toggle switch*/
+
+#matching {}
+#matching .scroll-content { height: 100%; }
+#matching .scroll-content .scroll { height: 100%; }
+#matching .scroll-content .scroll .slider { height: 100%; }
+
+#prof-img {
+	height: 30px;
+  	width: 30px;
+  	margin: 0;
+  	padding: 0;
+  	margin-left: -4px;
+}
+#prof-img + a { 
+	right: 11px; 
+	position: absolute; 
+	top: 0px;
+}
+.item-img-left {
+	padding-top: 8px;
+  	padding-bottom: 3px;
+}
+
+.font-gray,
+a.font-gray { color: #999999; }
+
+.item-radio input:checked ~ .item-content { background: none; }

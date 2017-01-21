@@ -1,0 +1,19 @@
+<ion-view view-title="SwoleMate" id="matching">
+	<ion-nav-buttons side="primary">
+		<a class="button button-large button-clear icon ion-navicon" menu-toggle="left"></a>
+    </ion-nav-buttons>
+	<ion-content class="padding">
+		<ion-slide-box>
+			<ion-slide ng-repeat="profileMatch in profileMatches">
+				<div class="">{{profileMatch.name}}</div><br/>
+			    <div class="">{{profileMatch.gender}}</div><br/>
+			    <div class="">{{profileMatch.age}} years old</div><br/>
+			    <div class="">{{profileMatch.height.ft}} ft {{profileMatch.height.in}} in</div><br/>
+			    <div class="">{{profileMatch.weight}} lbs</div><br/>
+			    <div class="" ng-repeat="gym in profileMatch.gyms">{{gym.name}} - {{gym.formatted_address}}</div><br/>
+			    <div class="" ng-repeat="type in profileMatch.workoutTypes | filter:{selected:true}">{{type.name}}</div><br/>
+			    <div class="" ng-repeat="schedule in profileMatch.workoutSchedules | filter:{selected:true}">{{schedule.name}}</div>
+			</ion-slide>
+		</ion-slide-box>
+	</ion-content>
+</ion-view>
